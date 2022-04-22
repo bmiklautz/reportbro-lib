@@ -1,9 +1,9 @@
 name: Publish
 
 on:
-  push:
-    branches:
-      - poetry
+  create:
+    tags:
+      - v*
 
 jobs:
   deploy:
@@ -26,5 +26,5 @@ jobs:
     - name: Build and publish
       run: |
         poetry --version
-        poetry build
-        #poetry publish --username ${{ secrets.PYPI_USERNAME }} --password ${{ secrets.PYPI_PASSWORD }}
+        poetry config repositories.test https://gitlab.jobsta.at/api/v4/projects/28/packages/pypi
+        poetry publish --build -r test --username ${{ secrets.PYPI_USERNAME }} --password ${{ secrets.PYPI_PASSWORD }}
